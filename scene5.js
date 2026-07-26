@@ -1,4 +1,5 @@
 function drawScene5(){
+    showLoader();
 
     d3.select("svg")
         .selectAll("*")
@@ -15,6 +16,7 @@ function drawScene5(){
 
     d3.json(url)
     .then(function(data){
+        hideLoader();
 
         data.forEach(d=>{
             d.total=+d.total;
@@ -263,6 +265,12 @@ function drawScene5(){
 
         updateChart("All");
 
+    })
+    .catch(function (error) {
+        hideLoader();
+        d3.select("#title")
+            .text("Unable to load NYC 311 data.");
+        console.log(error);
     });
 
 }

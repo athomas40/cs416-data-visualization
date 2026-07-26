@@ -1,4 +1,5 @@
 function drawScene2() {
+    showLoader();
     // Remove Scene 4 dropdown
     d3.select("#controls")
         .selectAll("*")
@@ -19,6 +20,7 @@ function drawScene2() {
 
     d3.json(url)
         .then(function (data) {
+            hideLoader();
             data.forEach(d => {
                 d.total = +d.total;
             });
@@ -258,5 +260,11 @@ function drawScene2() {
                     `${highestBorough.borough} has the highest number of complaints among NYC boroughs.`
                 );
 
+        })
+        .catch(function (error) {
+            hideLoader();
+            d3.select("#title")
+                .text("Unable to load NYC 311 data.");
+            console.log(error);
         });
 }

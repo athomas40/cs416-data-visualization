@@ -1,4 +1,5 @@
 function drawScene4(){
+   showLoader();
    d3.select("#controls")
         .selectAll("*")
         .remove();
@@ -14,6 +15,7 @@ function drawScene4(){
     "&$limit=50000";
    d3.json(url)
     .then(function(data){
+       hideLoader();
        // calculate resolution time
        data = data.filter(d =>
             d.closed_date &&
@@ -201,5 +203,11 @@ function drawScene4(){
         .text(
         "Some complaints take much longer to resolve than others."
         );
-   });
+   })
+    .catch(function (error) {
+       hideLoader();
+       d3.select("#title")
+            .text("Unable to load NYC 311 data.");
+       console.log(error);
+    });
 }

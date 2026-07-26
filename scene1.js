@@ -1,4 +1,5 @@
 function drawScene1() {
+    showLoader();
     // remove Scene 4 dropdown if it exists
     d3.select("#controls")
         .selectAll("*")
@@ -18,6 +19,7 @@ function drawScene1() {
         "&$limit=10";
     d3.json(url)
         .then(function (data) {
+            hideLoader();
             data.forEach(d => {
                 d.total = +d.total;
             });
@@ -128,6 +130,13 @@ function drawScene1() {
                 .text(
                     `${topComplaint.complaint_type} generated the most complaints`
                 );
-        });
+        })
+            .catch(function (error) {
+                hideLoader();
+                d3.select("#title")
+                    .text("Unable to load NYC 311 data.");
+
+                console.log(error);
+            });
 
 }

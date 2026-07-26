@@ -2,6 +2,16 @@ let currentScene = 1;
 
 let selectedBorough = selectedComplaint;
 
+function showLoader(){
+    d3.select("#loader")
+        .style("display","block");
+}
+
+function hideLoader(){
+    d3.select("#loader")
+        .style("display","none");
+}
+
 function updateScene(){
 
     d3.selectAll("button")

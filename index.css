@@ -104,3 +104,12 @@ button.active {
     width: 300px;
     font-size: 15px;
 }
+
+#loader {
+    display: none;
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #4169e1;
+    margin-top: 30px;
+}
