@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
+:root {
+    color-scheme: light;
+}
+
 body {
     font-family: "Gill Sans", sans-serif;
-    color: #1D1160;
-    background: #f4f4f4;
+    background: #f7f7f7;
+    color: #111111;
 }
 
 .page-header {
@@ -39,11 +43,10 @@ body {
 }
 
 svg {
-    border: none;
+    background: #ffffff;
     border-radius: 15px;
     display: block;
     margin: 25px auto;
-    background: white;
     box-shadow:
         0 5px 20px rgba(0, 0, 0, .15);
 }
@@ -56,7 +59,7 @@ label {
 }
 
 button {
-    background: #006BB6;
+    background: #4169e1;
     color: white;
     padding: 12px 24px;
     min-width: 160px;
@@ -69,7 +72,7 @@ button {
 }
 
 button:hover {
-    background: #F58426;
+    background: #ff8c00;
     transform: translateY(-3px);
 }
 
