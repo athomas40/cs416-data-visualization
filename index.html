@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>NYC 311 Complaints 2025</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <header class="page-header">
+        <h1 id="pageTitle">NYC 311: The Numbers Behind the Noise</h1>
+        <p id="pageSubtitle">A data-driven look at what New Yorkers report, where they report it, and how long it takes to resolve.</p>
+    </header>
+
+    <!-- scene navigation buttons -->
+    <div id="buttonsContainer">
+        <button id="scene1Button">
+            NYC Overview
+        </button>
+        <button id="scene2Button">
+            Borough Breakdown
+        </button>
+        <button id="scene3Button">
+            Local Priorities
+        </button>
+        <button id="scene4Button">
+            Resolution Time
+        </button>
+        <button id="scene5Button">
+            Explore Data
+        </button>
+
+    </div>
+
+    <h2 id="title"></h2>
+
+    <!-- scene 4 dropdown menu -->
+    <div id="controls" style="margin-bottom: 12px;"></div>
+
+    <!-- visualization area -->
+    <svg width="900" height="500"></svg>
+    <script src="constants.js"></script>
+    <script src="scene1.js"></script>
+    <script src="scene2.js"></script>
+    <script src="scene3.js"></script>
+    <script src="scene4.js"></script>
+    <script src="scene5.js"></script>
+    <script src="index.js"></script>
+
+</body>
+
+</html>
