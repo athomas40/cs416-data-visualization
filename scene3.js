@@ -9,6 +9,9 @@ function drawScene3() {
         .remove();
     d3.select("#title")
         .text("Every Borough Has Different Priorities");
+    d3.select("#description")
+        .text("Each borough has unique concerns, highlighting the complaint category that residents report most often in their community.")
+
     const url =
         "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +
         "?$select=borough,complaint_type,count(*) as total" +
@@ -180,10 +183,10 @@ function drawScene3() {
                 .style("font-size", "12px")
                 .style("font-weight", "bold")
                 .text(
-    `${differentBoroughs.map(d =>
-        d.borough
-    ).join(" and ")} have different top complaints than most boroughs.`
-);
+                    `${differentBoroughs.map(d =>
+                        d.borough
+                    ).join(" and ")} have different top complaints than most boroughs.`
+                );
         })
         .catch(function (error) {
             hideLoader();

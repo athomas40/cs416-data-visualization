@@ -11,6 +11,8 @@ function drawScene2() {
 
     d3.select("#title")
         .text("Complaint Patterns Differ Across NYC Boroughs (2025)");
+    d3.select("#description")
+        .text("Complaint trends vary across the five boroughs, showing how location influences the issues residents report.")
 
     const url =
         "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +

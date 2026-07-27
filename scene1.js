@@ -10,6 +10,8 @@ function drawScene1() {
         .remove();
     d3.select("#title")
         .text("What Do New Yorkers Complain About the Most? (2025)");
+    d3.select("#description")
+        .text("An overview of the most common 311 complaints in NYC during 2025, revealing the issues that residents reported most frequently.")
     const url =
         "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +
         "?$select=complaint_type,count(*) as total" +

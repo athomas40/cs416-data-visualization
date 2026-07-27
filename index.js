@@ -1,80 +1,76 @@
 let currentScene = 1;
 
-let selectedBorough = selectedComplaint;
+let selectedBorough = "All";
 
-function showLoader(){
+function showLoader() {
     d3.select("#loader")
-        .style("display","block");
+        .style("display", "block");
 }
 
-function hideLoader(){
+function hideLoader() {
     d3.select("#loader")
-        .style("display","none");
+        .style("display", "none");
 }
 
-function updateScene(){
-
-    d3.selectAll("button")
-        .classed("active",false);
-    if(currentScene===1){
-        d3.select("#scene1Button")
-        .classed("active",true);
+function updateScene() {
+    if (currentScene === 1) {
         drawScene1();
     }
-
-    else if(currentScene===2){
-        d3.select("#scene2Button")
-        .classed("active",true);
+    else if (currentScene === 2) {
         drawScene2();
     }
-
-    else if(currentScene===3){
-        d3.select("#scene3Button")
-        .classed("active",true);
+    else if (currentScene === 3) {
         drawScene3();
     }
-
-    else if(currentScene===4){
-        d3.select("#scene4Button")
-        .classed("active",true);
+    else if (currentScene === 4) {
         drawScene4();
     }
-
-    else if(currentScene===5){
-        d3.select("#scene5Button")
-        .classed("active",true);
+    else if (currentScene === 5) {
         drawScene5();
     }
 }
 
+function setActiveButton(button) {
+    d3.selectAll("#buttonsContainer button")
+        .classed("active", false);
+    d3.select(button)
+        .classed("active", true);
+}
+
 d3.select("#scene1Button")
-.on("click",function(){
-    currentScene=1;
-    updateScene();
-});
+    .on("click", function () {
+        currentScene = 1;
+        setActiveButton(this);
+        updateScene();
+    });
 
 d3.select("#scene2Button")
-.on("click",function(){
-    currentScene=2;
-    updateScene();
-});
+    .on("click", function () {
+        currentScene = 2;
+        setActiveButton(this);
+        updateScene();
+    });
 
 d3.select("#scene3Button")
-.on("click",function(){
-    currentScene=3;
-    updateScene();
-});
+    .on("click", function () {
+        currentScene = 3;
+        setActiveButton(this);
+        updateScene();
+    });
 
 d3.select("#scene4Button")
-.on("click",function(){
-    currentScene=4;
-    updateScene();
-});
+    .on("click", function () {
+        currentScene = 4;
+        setActiveButton(this);
+        updateScene();
+    });
 
 d3.select("#scene5Button")
-.on("click",function(){
-    currentScene=5;
-    updateScene();
-});
+    .on("click", function () {
+        currentScene = 5;
+        setActiveButton(this);
+        updateScene();
+    });
 
+setActiveButton("#scene1Button");
 updateScene();

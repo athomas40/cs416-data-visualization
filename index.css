@@ -8,47 +8,56 @@ body {
     font-family: "Gill Sans", sans-serif;
     background: #f7f7f7;
     color: #111111;
+    margin: 0;
 }
 
 .page-header {
     text-align: center;
-    margin: 20px auto;
+    margin: 12px auto;
     width: 95%;
     background: white;
-    border: none;
     border-top: 8px solid #F58426;
     border-bottom: 8px solid #006BB6;
-    padding: 20px;
+    padding: 12px 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, .15);
 }
 
 #pageTitle {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
+    font-size: 44px;
     color: #006BB6;
     letter-spacing: 2px;
+    margin-bottom: 20px;
 }
 
 #pageSubtitle {
-    font-size: 20px;
-    color: #1D1160;
+    font-size: 17px;
+    margin: 4px;
 }
 
 #title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
+    font-size: 42px;
     text-align: center;
-    color: #4169e1;
-    margin-bottom: 0px
+    color: #006BB6;
+    letter-spacing: 1px;
+    margin: 10px 0 2px;
+}
+
+#description {
+    font-size: 17px;
+    text-align: center;
+    color: #555;
+    margin: 4px auto 12px;
+    max-width: 750px;
 }
 
 svg {
     background: #ffffff;
     border-radius: 15px;
     display: block;
-    margin: 25px auto;
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, .15);
+    margin: 10px auto 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
 }
 
 button,
@@ -61,11 +70,11 @@ label {
 button {
     background: #4169e1;
     color: white;
-    padding: 12px 24px;
-    min-width: 160px;
+    padding: 10px 18px;
+    min-width: 150px;
     border-radius: 25px;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     transition: .25s;
@@ -85,8 +94,9 @@ button.active {
     justify-content: center;
     align-items: center;
     gap: 12px;
-    width: 100%;
-    margin: 20px auto;
+    width: 95%;
+    max-width: 1100px;
+    margin: 25px auto 25px;
 }
 
 #controls {
@@ -94,18 +104,21 @@ button.active {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
-    min-height: 42px;
+    margin: 4px 0;
+    min-height: 0;
+    height: auto;
 }
 
 #controls label {
-    font-size: 20px;
+    font-size: 16px;
     border: none;
 }
 
 #controls select {
-    width: 300px;
+    width: 250px;
     font-size: 15px;
+    padding: 4px 8px;
+    border-radius: 8px;
 }
 
 #loader {
