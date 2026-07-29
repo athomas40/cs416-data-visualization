@@ -1,6 +1,4 @@
 function drawScene5() {
-    showLoader();
-
     d3.select("svg")
         .selectAll("*")
         .remove();
@@ -10,21 +8,17 @@ function drawScene5() {
     d3.select("#description")
         .text("Interact with the data by selecting a borough and discovering how complaint patterns change across NYC.")
 
-    const url =
-        "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +
-        "?$select=borough,complaint_type,count(*) as total" +
-        "&$where=created_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'" +
-        "&$group=borough,complaint_type";
-
-    d3.json(url)
+    loadDashboardData()
         .then(function (data) {
             hideLoader();
 
-            data.forEach(d => {
-                d.total = +d.total;
-            });
-
             const boroughOptions = boroughs;
+            const complaintCountsByBorough = d3.rollup(
+                data,
+                values => values.length,
+                d => d.borough,
+                d => d.complaint_type
+            );
 
             // Create dropdown
             const controls =
@@ -56,27 +50,21 @@ function drawScene5() {
                 let filtered;
 
                 if (selectedBorough === "All") {
-                    filtered =
-                        d3.rollups(
+                    filtered = Array.from(
+                        d3.rollup(
                             data,
-                            v => d3.sum(v, d => d.total),
+                            values => values.length,
                             d => d.complaint_type
-                        )
-                            .map(d => ({
-                                complaint_type: d[0],
-                                total: d[1]
-                            }));
+                        ),
+                        ([complaint_type, total]) => ({ complaint_type, total })
+                    );
                 }
                 else {
-                    filtered =
-                        data
-                            .filter(d =>
-                                d.borough === selectedBorough
-                            )
-                            .map(d => ({
-                                complaint_type: d.complaint_type,
-                                total: d.total
-                            }));
+                    const boroughComplaintMap = complaintCountsByBorough.get(selectedBorough) || new Map();
+                    filtered = Array.from(
+                        boroughComplaintMap,
+                        ([complaint_type, total]) => ({ complaint_type, total })
+                    );
                 }
 
                 filtered =

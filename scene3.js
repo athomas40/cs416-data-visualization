@@ -1,5 +1,4 @@
 function drawScene3() {
-    showLoader();
     // Remove Scene 4 dropdown if it exists
     d3.select("#controls")
         .selectAll("*")
@@ -12,40 +11,28 @@ function drawScene3() {
     d3.select("#description")
         .text("Each borough has unique concerns, highlighting the complaint category that residents report most often in their community.")
 
-    const url =
-        "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +
-        "?$select=borough,complaint_type,count(*) as total" +
-        "&$where=created_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'" +
-        "&$group=borough,complaint_type";
-    d3.json(url)
+    loadDashboardData()
         .then(function (data) {
             hideLoader();
-            data.forEach(d => {
-                d.total = +d.total;
-            });
-            // Remove records without borough
-            data = data.filter(d =>
-                d.borough &&
-                d.complaint_type
-            );
-            // Find highest complaint for each borough
             const boroughOptions = boroughs.filter(b => b !== "All");
-            const topComplaints =
-                boroughOptions.map(borough => {
-                    const boroughData =
-                        data.filter(d =>
-                            d.borough === borough
-                        );
-                    const highest =
-                        boroughData.sort(
-                            (a, b) => b.total - a.total
-                        )[0];
-                    return {
-                        borough: borough,
-                        complaint: highest.complaint_type,
-                        total: highest.total
-                    };
-                });
+            const boroughComplaintTotals = d3.rollup(
+                data,
+                values => values.length,
+                d => d.borough,
+                d => d.complaint_type
+            );
+
+            const topComplaints = boroughOptions.map(borough => {
+                const complaintMap = boroughComplaintTotals.get(borough) || new Map();
+                const highest = Array.from(complaintMap.entries())
+                    .sort((a, b) => b[1] - a[1])[0];
+
+                return {
+                    borough: borough,
+                    complaint: highest ? highest[0] : "",
+                    total: highest ? highest[1] : 0
+                };
+            });
             const complaintFrequency =
                 d3.rollup(
                     topComplaints,

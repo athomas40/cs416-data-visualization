@@ -1,5 +1,4 @@
 function drawScene1() {
-    showLoader();
     // remove Scene 4 dropdown if it exists
     d3.select("#controls")
         .selectAll("*")
@@ -12,19 +11,21 @@ function drawScene1() {
         .text("What Do New Yorkers Complain About the Most? (2025)");
     d3.select("#description")
         .text("An overview of the most common 311 complaints in NYC during 2025, revealing the issues that residents reported most frequently.")
-    const url =
-        "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +
-        "?$select=complaint_type,count(*) as total" +
-        "&$where=created_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'" +
-        "&$group=complaint_type" +
-        "&$order=total DESC" +
-        "&$limit=10";
-    d3.json(url)
+    loadDashboardData()
         .then(function (data) {
             hideLoader();
-            data.forEach(d => {
-                d.total = +d.total;
-            });
+
+            const complaintTotals = Array.from(
+                d3.rollup(
+                    data,
+                    values => values.length,
+                    d => d.complaint_type
+                ),
+                ([complaint_type, total]) => ({ complaint_type, total })
+            )
+                .sort((a, b) => b.total - a.total)
+                .slice(0, 10);
+
             const svg = d3.select("svg");
             const width = +svg.attr("width");
             const height = +svg.attr("height");
@@ -51,7 +52,7 @@ function drawScene1() {
             const x = d3.scaleLinear()
                 .domain([
                     0,
-                    d3.max(data, d => d.total)
+                    d3.max(complaintTotals, d => d.total)
                 ])
                 .range([0, chartWidth]);
 
@@ -61,12 +62,12 @@ function drawScene1() {
             };
 
             const y = d3.scaleBand()
-                .domain(data.map(d => d.complaint_type))
+                .domain(complaintTotals.map(d => d.complaint_type))
                 .range([0, chartHeight])
                 .padding(0.2);
 
             chart.selectAll("rect")
-                .data(data)
+                .data(complaintTotals)
                 .enter()
                 .append("rect")
                 .attr("x", 0)
@@ -90,7 +91,7 @@ function drawScene1() {
 
             // Labels
             chart.selectAll(".label")
-                .data(data)
+                .data(complaintTotals)
                 .enter()
                 .append("text")
                 .attr("x", d => x(d.total) + 5)
@@ -103,7 +104,7 @@ function drawScene1() {
 
             // Annotation Box
 
-            const topComplaint = data[0];
+            const topComplaint = complaintTotals[0];
 
             svg.append("rect")
                 .attr("x", 220)

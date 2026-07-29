@@ -1,5 +1,4 @@
 function drawScene2() {
-    showLoader();
     // Remove Scene 4 dropdown
     d3.select("#controls")
         .selectAll("*")
@@ -14,22 +13,12 @@ function drawScene2() {
     d3.select("#description")
         .text("Complaint trends vary across the five boroughs, showing how location influences the issues residents report.")
 
-    const url =
-        "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +
-        "?$select=borough,complaint_type,count(*) as total" +
-        "&$where=created_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'" +
-        "&$group=borough,complaint_type";
-
-    d3.json(url)
+    loadDashboardData()
         .then(function (data) {
             hideLoader();
-            data.forEach(d => {
-                d.total = +d.total;
-            });
-
             const complaintTotals = d3.rollup(
                 data,
-                values => d3.sum(values, d => d.total),
+                values => values.length,
                 d => d.complaint_type
             );
 
@@ -45,24 +34,22 @@ function drawScene2() {
 
             const boroughOptions = boroughs.filter(b => b !== "All");
 
-            // Keep only major complaint categories
-            const filteredData = data.filter(d =>
-                complaints.includes(d.complaint_type)
+            const boroughComplaintTotals = d3.rollup(
+                data,
+                values => values.length,
+                d => d.borough,
+                d => d.complaint_type
             );
 
-            // Convert data into stacked format
             const formattedData = boroughOptions.map(borough => {
                 let obj = {
                     borough: borough
                 };
                 complaints.forEach(type => {
-                    const match =
-                        filteredData.find(d =>
-                            d.borough === borough &&
-                            d.complaint_type === type
-                        );
-                    obj[type] =
-                        match ? match.total : 0;
+                    const boroughData = boroughComplaintTotals.get(borough);
+                    obj[type] = boroughData && boroughData.get(type)
+                        ? boroughData.get(type)
+                        : 0;
                 });
                 return obj;
             });

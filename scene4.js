@@ -1,5 +1,4 @@
 function drawScene4() {
-    showLoader();
     d3.select("#controls")
         .selectAll("*")
         .remove();
@@ -11,12 +10,7 @@ function drawScene4() {
     d3.select("#description")
         .text("Some complaints require more time and resources to address. Explore which issues take the longest for NYC agencies to resolve.")
 
-    const url =
-        "https://data.cityofnewyork.us/resource/erm2-nwe9.json" +
-        "?$select=complaint_type,created_date,closed_date" +
-        "&$where=created_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'" +
-        "&$limit=50000";
-    d3.json(url)
+    loadDashboardData()
         .then(function (data) {
             hideLoader();
             // calculate resolution time
